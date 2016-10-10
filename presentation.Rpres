@@ -1,0 +1,66 @@
+Storm Data Exploration
+========================================================
+author: Aya Mahfouz
+date: 10 October 2016
+
+Overview
+========================================================
+
+This application provides an overview of the catastrophies
+caused by major storms and weather events. They are divided into:
+
+1. Casualities
+
+  1.1 Fatalities
+
+  1.2 Injuries
+
+2. Damages
+  
+    2.1 Products Damages
+    
+    2.2 Crops Damages
+
+User Guide 1
+========================================================
+### Tabs
+![Tabs](tabs.png)
+* There are three clickable tabs:
+  * Documentation : How the application works
+  * Casualities: Graphs on fatalities and injuries
+  * Costs: Graphs on products and crops' damages
+
+### Sliders
+![sliders](sliders.png)
+* Used to control the range of values for one variable
+
+
+
+User Guide 2
+========================================================
+### Scatter Plots
+* They display top events with respect to two variables
+
+```{r echo=FALSE}
+library(ggplot2)
+cost <- read.csv("cost.csv",sep=",",header = TRUE)
+ggplot(cost[1:20,],
+           aes(x=prod.actual,y=crop.actual,group=EVTYPE,color=EVTYPE))+
+      geom_point()+
+      geom_text(aes(label=EVTYPE),vjust=-2)+
+      xlab("products damage")+
+      ylab("crop damages")
+```
+
+User Guide 3
+========================================================
+### Bar Charts
+* They display top events with respect to one variable
+```{r echo=FALSE}
+casualities <- read.csv("casualities.csv",sep=",",header = TRUE)
+
+ ggplot(casualities[1:20,], aes(x = reorder(EVTYPE,-FATALITIES), y=FATALITIES))+
+      geom_bar(stat='identity')+
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+      xlab("Event Type")
+```
